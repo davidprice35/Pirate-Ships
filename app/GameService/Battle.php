@@ -65,7 +65,7 @@ class Battle
         }
     }
 
-    /**
+	/**
 	 * Check if both ships are able to battle
 	 * @param	$ship1
 	 * @param	$ship2
@@ -74,6 +74,7 @@ class Battle
 	 */
     public static function canShipsBattle($ship1, $ship2)
     {
+		//Check health of ship
         if (!$ship1->IsShipSunk() || !$ship2->IsShipSunk())
 		{
             return false;
@@ -82,6 +83,34 @@ class Battle
         return true;
     }
 
+	/**
+	 * Generates attack type
+	 * @param	array $availableAttackTypes
+	 * @return	array
+	 */
+    public static function attackType(array $availableAttackTypes) : array
+    {
+		$startChanceValue = 0;
+        $currentChance = 0;
+
+		// random number 0 to 100
+        $rand_number = rand(0, 100);
+
+        // check random number
+        foreach ($availableAttackTypes as $availableAttackType)
+		{
+			//Get chance value
+            $currentChance += $availableAttackType['chance'];
+
+            if ($rand_number >= $startChanceValue && $rand_number <= $currentChance)
+			{
+                return $availableAttackType;
+            }
+
+            $startChanceValue += $availableAttackType['chance'];
+        }
+
+    }	   	  
 
 	/**
 	 * Create Ship Damage
@@ -103,38 +132,6 @@ class Battle
     }
 
 
-
-    /**
-	 * Generates attack type
-	 * @param	array $availableAttackTypes
-	 * @return	array
-	 * @throws	Exception
-	 */
-    public static function attackType(array $availableAttackTypes) : array
-    {
-		// random number 0 to 100
-        $rand_number = rand(0, 100);
-
-        $startChanceValue = 0;
-        $currentChance = 0;
-
-        // check random number
-        foreach ($availableAttackTypes as $availableAttackType)
-		{
-            $currentChance += $availableAttackType['chance'];
-
-            if ($rand_number >= $startChanceValue && $rand_number <= $currentChance)
-			{
-                return $availableAttackType;
-            }
-
-            $startChanceValue += $availableAttackType['chance'];
-        }
-
-        throw new Exception('Error with attack type');
-    }
-
-	
 	/**
 	 *
 	 * Generate ship damage

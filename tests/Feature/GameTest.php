@@ -11,8 +11,7 @@ use App\GameService\Battle;
 
 class CombatTest extends TestCase
 {
-	//php artisan test Tests\Feature\GameTest
-
+	
 	public function test_ship_health()
 	{
 	    $shipA = new Ship('offensive',100,15,5);
